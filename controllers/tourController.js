@@ -95,7 +95,12 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     const tour = await Tour.findByIdAndUpdate(id, req.body, {
         new: true,
         runValidators: true
-    })
+    });
+
+    if (!tour) {
+        return next(new AppError("No tour found with id " + id, 404));
+    }
+
     res.status(200).json({
         status: 'success',
         data: {
@@ -117,7 +122,12 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
     const tour = await Tour.findByIdAndDelete(id, req.body, {
         new: true,
         runValidators: true
-    })
+    });
+
+    if (!tour) {
+        return next(new AppError("No tour found with id " + id, 404));
+    }
+
     res.status(200).json({
         status: 'success',
         data: {
