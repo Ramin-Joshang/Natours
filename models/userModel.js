@@ -51,11 +51,20 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.pre('save', async function (next) {
+    // * 1) Only run this function if password was actually modified
     if (!this.isModified('password')) return next();
+    // * 2) Hash the password with cost of 12
     this.password = await bcrypt.hash(this.password, 12);
+    // * 3) Delete passwordConfirm field
     this.passwordConfirm = undefined;
     next();
 });
+
+userSchema.pre("save", function (next) {
+    if (!this.isModified('password') || this.isNew) return next();
+    this.passwordChangedAt = Date.now() - 1000;
+    next();
+})
 
 userSchema.methods.correctPassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
