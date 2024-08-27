@@ -1,6 +1,7 @@
 const express = require('express');
 const { getAllUsers, createUser, getUserById, updateUser, deleteUser, updateMe, deleteMe } = require('../controllers/userController');
-const { signup, login, forgotPassword, resetPassword, protect, updatePassword } = require('../controllers/authController');
+const { signup, login, forgotPassword, resetPassword, protect, updatePassword, restrictTo } = require('../controllers/authController');
+const { createReview } = require('../controllers/reviewController');
 
 const router = express.Router();
 
