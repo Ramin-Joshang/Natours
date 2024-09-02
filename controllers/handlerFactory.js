@@ -26,7 +26,8 @@ exports.getAll = Modal => catchAsync(async (req, res) => {
 });
 
 exports.getOne = (Model, popOptions) => catchAsync(async (req, res, next) => {
-    const { id } = req.params
+    const { id } = req.params;
+    console.log(id)
     // * Tour.findOne({_id: id})
     let query = Model.findById(id);
     if (popOptions) query = query.populate(popOptions);
